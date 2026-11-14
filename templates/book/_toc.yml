@@ -2,18 +2,22 @@ format: jb-book
 root: intro
 
 parts:
-  - caption: "The paper"
+  - caption: "Seminar notes"
     numbered: true
     chapters:
-      - file: 01_result
-      # - file: 02_background
-      # - file: 03_proof
-  - caption: "Checking it"
-    numbered: true
-    chapters: []
-      # - file: 04_formalization
-      # - file: 05_cas
-      # - file: 06_findings        # only if the speaker agreed to publish findings
-  - caption: "For the seminar"
-    chapters: []
-      # - file: 07_exercises
+      - file: paper                     # the paper in one sitting
+      - file: section/section           # one chapter per section of the paper ...
+        sections:
+          - file: section/s1_first      # ... with one sub-notebook per step or object
+      - file: formalization/formalization
+        sections:
+          - file: formalization/f1_contract
+          - file: formalization/f2_trust
+      # - file: register                # the findings register: uncomment only once the speaker
+      #                                 # decided to publish the findings (deploys copy the book)
+      - file: exercises
+
+  - caption: "Back matter"
+    chapters:
+      - file: references
+      - file: code                      # appendix: the shared helper module, in full

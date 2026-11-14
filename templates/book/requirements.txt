@@ -1,4 +1,5 @@
-# Environment for building the notes (Jupyter Book 1.x) and executing the notebooks.
+# Environment for building the notes (Jupyter Book 1.x; sphinxcontrib-bibtex and sphinx-design come
+# with it) and executing the notebooks. Keep it lean: the disk may be tight.
 # Install: uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -r book/requirements.txt
 jupyter-book==1.0.4.post1
 jupytext

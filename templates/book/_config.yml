@@ -1,17 +1,18 @@
 # Jupyter Book 1.x configuration for the seminar notes.
-# Build: .venv/bin/jupyter-book build book/ --warningiserror --keep-going
-title: "{{TITLE}}"
+#   .venv/bin/jupyter-book build book/ --warningiserror --keep-going      (full rebuild: jupyter-book clean --all book/)
+title: "{{TITLE}} — seminar notes"
 author: "{{SPEAKER}}"
-copyright: "{{YEAR}} {{SPEAKER}}"
+copyright: "{{YEAR}}"
 only_build_toc_files: true
 exclude_patterns:
   - _build
   - "**.ipynb_checkpoints"
 
+# Every computational chapter is a notebook stored WITHOUT outputs and executed at build time.
 execute:
-  execute_notebooks: force      # every number in the notes is computed at build time
+  execute_notebooks: force
   timeout: 300
-  allow_errors: false           # a failing guard cell (assert) stops the build
+  allow_errors: false
   stderr_output: show
 
 parse:
@@ -25,6 +26,9 @@ parse:
     - linkify
     - substitution
 
+bibtex_bibfiles:
+  - references.bib
+
 html:
   use_edit_page_button: false
   use_repository_button: false
@@ -32,7 +36,11 @@ html:
   use_multitoc_numbering: true
   home_page_in_navbar: true
   extra_footer: |
-    <p><a href="../index.html">Seminar page</a> · {{SEMINAR}}</p>
+    <p>{{SEMINAR}} · {{DATE}}</p>
+
+latex:
+  latex_documents:
+    targetname: seminar-notes.tex
 
 sphinx:
   config:
@@ -40,16 +48,21 @@ sphinx:
     html_last_updated_fmt: "%Y-%m-%d"
     html_show_sourcelink: false
     nb_merge_streams: true
+    nb_execution_raise_on_error: true   # a failing hidden assert aborts the build
+    nb_render_markdown_format: myst
     myst_heading_anchors: 3
     # linkify without fuzzy links: abbreviations with dots would otherwise become links
     myst_linkify_fuzzy_links: false
+    bibtex_reference_style: label
+    bibtex_default_style: alpha
     mathjax3_config:
       tex:
-        macros:
-          N: "\\mathbb{N}"
+        macros:            # add the paper's own operators here
+          PP: "\\mathbb{P}"
           Z: "\\mathbb{Z}"
           Q: "\\mathbb{Q}"
           R: "\\mathbb{R}"
           C: "\\mathbb{C}"
           F: "\\mathbb{F}"
-          P: "\\mathbb{P}"
+          rk: "\\operatorname{rk}"
+          disc: "\\operatorname{disc}"

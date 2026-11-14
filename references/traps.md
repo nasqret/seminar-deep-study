@@ -95,6 +95,16 @@ Add a trap to the project's `CLAUDE.md` the day you hit it, and to this file whe
   other agents, instead of letting copies diverge.
 - A `print(label, slow())` call can reach the notebook as two stream chunks, and the book then
   shows the line broken in two. Compute first, then print once.
+- `jupytext --to ipynb` does not recognise a MyST header; convert with
+  `jupytext --from myst --to ipynb`.
+- A helper module imported by notebooks leaves `__pycache__` in `book/` unless the notebooks set
+  `sys.dont_write_bytecode = True` before the import.
+- Relative links from the book to `../slides/` or `../index.html` work in the published layout,
+  not from `book/_build/html/` on disk.
+- Some publishers answer 403 to non-browser clients after the doi.org redirect: bot protection,
+  not a broken link. Record the date on which the references were resolved.
+- In the first use the agent's harness refused to write a file named `findings.md`; the findings
+  chapter is `register.md`.
 - The Verso generator can exit with a non-zero status after writing a complete-looking site (for
   example on a dangling cross-reference); check its exit status.
 - A document that reads files from disk at elaboration time (Verso) is not rebuilt by Lake when

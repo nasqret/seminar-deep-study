@@ -159,7 +159,8 @@ class Scaffold(unittest.TestCase):
                       "source/SOURCE.md", "artifacts/mathematical/digest.md", "formal/Toy/Defs.lean",
                       "formal/Toy.lean", "formal/demo/LiveDemo.lean", "formal/comparator.json",
                       "tools/cert2lean.py", "tools/cluster.sh", "index.html", "slides/build/build.py",
-                      "book/_config.yml", "vault/Home.md", "verso/Doc/Meta.lean", "verso/.gitignore"]:
+                      "book/_config.yml", "book/seminar_lib.py", "book/formalization/f2_trust.md",
+                      "vault/Home.md", "verso/Doc/Meta.lean", "verso/.gitignore"]:
                 self.assertTrue((proj / f).exists(), f)
             text = "".join(p.read_text(encoding="utf-8") for p in proj.rglob("*") if p.is_file())
             for key in ["TITLE", "SPEAKER", "LEAN_NAME", "PROJECT", "TODAY", "SEMINAR"]:

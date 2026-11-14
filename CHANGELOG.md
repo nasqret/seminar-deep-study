@@ -4,6 +4,12 @@ All notable changes to this skill. Versions follow [semantic versioning](https:/
 
 ## [Unreleased]
 
+- Notes: the Jupyter Book template follows the finished notes of the first use: MyST notebooks
+  executed at every build with guard asserts, `literalinclude` from `formal/`, verdicts parsed
+  from the verification logs, a shared helper module with an appendix, a bibliography, a
+  findings chapter (`register.md`) kept out of the table of contents until published; the notes
+  brief and the "Notes" part of `references/materials.md` are rewritten accordingly; new traps.
+
 ## [1.0.0] — 2026-11-14
 
 First version, extracted from one long working session in which a seminar talk on a recent

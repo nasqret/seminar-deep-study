@@ -101,11 +101,21 @@ references.
 with minute marks taken from the deck, a computer run sheet with the live demo and the
 no-network fallback, and a checklist for the day before. Printable on A4.
 
-**Notes** (`templates/book/`): a Jupyter Book with notebooks executed at build time
-(`execute_notebooks: force`). Every number in the prose is computed in a cell, and hidden `assert`
-cells guard the sentences that state results. Build with `--warningiserror --keep-going`. The
-chapters are an overview, background, the main theorem and its proof, the formalization, the CAS
-re-verification, findings (if agreed), exercises and references.
+**Notes** (`templates/book/`, read its `README.md`): a Jupyter Book 1.x. Computational chapters
+are notebooks stored without outputs and executed at every build (`execute_notebooks: force`,
+`nb_execution_raise_on_error`), authored as MyST and converted with `jupytext --from myst --to
+ipynb`. Every number the prose quotes is computed in a cell and guarded by a hidden `assert` cell
+(`remove-cell`): in the first use, 13 notebooks carried 53 such guards, and a clean build with
+`--warningiserror` took 42 s. Lean code enters only by `{literalinclude}` from `formal/`; the audit
+count, the kernels and the comparator verdict are parsed from `formal/verification/logs/`. A shared
+helper module (`seminar_lib.py`: the paper's objects transcribed once, high-precision numerics
+with a recorded zero/nonzero gap, exact linear algebra) is imported by the notebooks with
+`sys.dont_write_bytecode = True` and printed in full in an appendix. Citations come from
+`references.bib`. Chapters: intro (results in three lines, a reading table with the minutes of the
+talk), the paper in one sitting, one chapter per section of the paper with sub-notebooks, the
+formalization (contract, proofs, certificates re-checked independently, `grind`, what is assumed),
+the findings register (`register.md`, in the table of contents only once the user decides to
+publish findings), exercises with computed answers, references, appendix.
 
 **Verso document** (`templates/verso/`): see `references/lean-palomar.md`, section 10. Build it
 where the library is built (on the cluster when Lean is remote), and check the generator's exit
