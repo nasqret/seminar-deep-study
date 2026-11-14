@@ -40,4 +40,4 @@ elif [[ -e "$LINK" ]]; then
 fi
 run mkdir -p "$DIR"
 run ln -s "$SRC" "$LINK"
-echo "installed: $LINK -> $SRC (start a new Claude Code session to load it)"
+if [[ $DRY -eq 0 ]]; then echo "installed: $LINK -> $SRC (start a new Claude Code session to load it)"; fi
