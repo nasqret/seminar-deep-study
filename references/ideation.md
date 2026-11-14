@@ -133,7 +133,7 @@ Four rounds in one afternoon, for a 90-minute talk to an algebraic geometry and 
   candidates were checked; three were presented: an AI-agent formalization of a cohomology
   vanishing theorem, a human formalization of blowups pinned to an old toolchain, and a pair of
   certificate-tactic papers for Gröbner bases. The user declined the question tool to clarify:
-  he wanted the technical issues of formalizing algebraic geometry, new tactics and new
+  the wish was the technical issues of formalizing algebraic geometry, new tactics and new
   discoveries.
 - **Round 2.** Four candidates: an AI system that settled an open conjecture in commutative
   algebra with Lean proofs; an AI-found counterexample to a classical conjecture (re-verified with
@@ -145,11 +145,11 @@ Four rounds in one afternoon, for a 90-minute talk to an algebraic geometry and 
   exactly the tactics the user wanted to explain.
 - **Round 4.** "Compare my interests with the latest preprints in algebraic geometry and number
   theory, at most 10–15 pages." A profile was built from the user's arXiv record and the topics of
-  his current projects. The scan covered about 630 preprints in two categories over two months,
+  the user's current projects. The scan covered about 630 preprints in two categories over two months,
   ranked them, counted pages from the PDFs of the top eight, and read three. The answer was a
   recommendation, two alternatives, two papers just over the page limit, and one piece of news.
 - The user picked the recommendation and widened the scope in the same message: formalize it,
-  re-check its computations in the CAS he prefers, write a Verso document, find any errors,
+  re-check its computations in the user's preferred CAS, write a Verso document, find any errors,
   rewrite the paper for notes and slides, "all in one go".
 
 What made it work: each round answered the redirect exactly, every candidate was checked at the

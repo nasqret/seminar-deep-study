@@ -192,7 +192,7 @@ More openers are in `examples/prompts.md`.
 - **No secrets in files**: SSH uses your keys or agent; passwords and tokens never enter the
   project. `tools/leak_scan.py` checks a tree for secrets and for any strings you list (user names,
   hosts, home paths, private project names) before you publish it.
-- **Two editions.** The author keeps a private edition of this skill with his own infrastructure
+- **Two editions.** The author keeps a private edition of this skill with the author's own infrastructure
   (website deployment, cluster and CAS hosts, research profile), in a private repository. This
   public edition is generated from it, scanned for leaks, and contains none of those details.
   Neither edition contains findings about any particular paper.
