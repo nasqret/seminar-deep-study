@@ -9,6 +9,9 @@ high-precision numerical screen (`artifacts/computational/`), evidence and not a
 means an experiment or benchmark re-run; **[paper]** means taken from the paper and not re-checked
 here.
 
+
+<!-- Write mathematics as $…$ / $$…$$ LaTeX; publish the PDF made by scripts/digest_pdf.py. -->
+
 ---
 
 ## 0. The result in three lines

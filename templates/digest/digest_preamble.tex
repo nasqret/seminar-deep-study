@@ -1,0 +1,26 @@
+% Preamble additions for the LaTeX/PDF edition of the paper digest (inserted by pandoc after the
+% packages of its default template; see scripts/digest_pdf.py, which fills in RUNNING-HEAD).
+\usepackage{xcolor}
+\definecolor{digestink}{HTML}{0F172A}
+\definecolor{digestmuted}{HTML}{64748B}
+\definecolor{digestlink}{HTML}{4338CA}
+\AtBeginDocument{\hypersetup{colorlinks=true,linkcolor=digestlink,urlcolor=digestlink,citecolor=digestlink}}
+% Fonts: Latin Modern, with DejaVu as a fallback for characters Latin Modern lacks.
+\directlua{luaotfload.add_fallback("fallback", {"DejaVu Sans:mode=harf;", "DejaVu Sans Mono:mode=harf;"})}
+\setmainfont{Latin Modern Roman}[RawFeature={fallback=fallback}]
+\setsansfont{Latin Modern Sans}[RawFeature={fallback=fallback}]
+\setmonofont{DejaVu Sans Mono}[Scale=0.80,RawFeature={fallback=fallback}]
+% Paths and Lean names in \texttt may break after / . _
+\usepackage[htt]{hyphenat}
+\setlength{\emergencystretch}{3em}
+% Running heads.
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\clearpairofpagestyles
+\ihead{\small RUNNING-HEAD}
+\ohead{\small\pagemark}
+\setkomafont{pageheadfoot}{\normalfont\color{digestmuted}}
+\setkomafont{disposition}{\normalfont\bfseries\color{digestink}}
+\setkomafont{subtitle}{\normalfont\large\color{digestmuted}}
+% Tables: a little tighter, small type.
+\AtBeginEnvironment{longtable}{\small\renewcommand{\arraystretch}{1.15}}

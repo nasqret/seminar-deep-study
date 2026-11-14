@@ -51,7 +51,9 @@ def plan(args) -> list[tuple[Path, Path]]:
         pairs.append((proj / name, Path(name)))
     pairs.append((proj / "gitignore", Path(".gitignore")))
     pairs.append((proj / "source" / "SOURCE.md", Path("source/SOURCE.md")))
-    pairs.append((T / "digest.md", Path("artifacts/mathematical/digest.md")))
+    pairs.append((T / "digest" / "digest.md", Path("artifacts/mathematical/digest.md")))
+    pairs.append((T / "digest" / "digest_pdf.py", Path("scripts/digest_pdf.py")))
+    pairs.append((T / "digest" / "digest_preamble.tex", Path("scripts/digest_preamble.tex")))
     if args.lean:
         def ren(p: str) -> str:
             return p.replace("LEANNAME", args.lean)

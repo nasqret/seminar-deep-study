@@ -35,7 +35,15 @@ the decisions.
 
 `artifacts/mathematical/digest.md` is the single mathematical source of truth. Notes, slides, the
 Verso document and the landing page quote it; when they disagree, the digest wins and the others
-are fixed. Template: `templates/digest.md`.
+are fixed. Template: `templates/digest/digest.md`.
+
+**Write the mathematics as `$…$` LaTeX** (inline) and `$$…$$` (display) — not Unicode inside
+code spans: it renders in Obsidian and on GitHub, and `scripts/digest_pdf.py` turns the file into a
+typeset **PDF** (pandoc → LuaLaTeX; the `.tex` is generated, never edited). Keep code spans for Lean
+names and file paths. In pipe tables, give the long columns more dashes (pandoc uses them as relative
+widths) and write `\mid` instead of `|` inside math. Whenever the digest is shown to anyone — the
+landing page, the slides' links, a deployed site — link the PDF, never the raw Markdown; render a few
+pages to PNG and look at them before publishing.
 
 Structure:
 - **Header**: source, version, the tag legend, and a sentence saying what is verified where.
@@ -93,3 +101,4 @@ The digest is also the script of the talk. Keep the paper's numbering so that li
 follow along in the original. Reorganize each proof into steps that fit on a board. Say what each
 step uses. Prefer one example worked by hand to a general statement given twice. Mark what goes on
 the board and what goes on the screen; the board plan in `slides/` is derived from these marks.
+

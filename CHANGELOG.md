@@ -2,6 +2,11 @@
 
 All notable changes to this skill. Versions follow [semantic versioning](https://semver.org).
 
+## Unreleased
+
+- Digest PDF: `templates/digest/digest_pdf.py` + `digest_preamble.tex` (pandoc → LuaLaTeX); the digest's
+  mathematics in `$…$`; publish the PDF, never the raw Markdown.
+
 ## [Unreleased]
 
 - Notes: the Jupyter Book template follows the finished notes of the first use: MyST notebooks
@@ -21,7 +26,7 @@ algebraic geometry preprint was chosen, studied, formalized and prepared.
   dashboard is delivered (local, private artifact, GitHub Pages, own server) and when.
 - **Ideation** (`references/ideation.md`, `tools/arxiv_scan.py`): interest profiles, arXiv scans
   with ranking and page counts, verification at the source, the shortlist format, redirections.
-- **Digest and findings register** (`references/digest.md`, `templates/digest.md`): status tags
+- **Digest and findings register** (`references/digest.md`, `templates/digest/digest.md`): status tags
   and severities.
 - **Verification** (`references/verification.md`, `references/lean-palomar.md`): CAS transcripts,
   numeric screens, the certificate pipeline (`tools/cert2lean.py`), `grind` as a second route,

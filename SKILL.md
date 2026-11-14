@@ -101,7 +101,7 @@ Fetch the PDF and the LaTeX source into `source/` (git-ignored). Record the vers
 SHA-256 checksums in `source/SOURCE.md`. Transcribe formulas and lists from the LaTeX, never from
 the PDF text layer. Scaffold the project with `tools/scaffold.py` (documentation templates, the
 digest, and optionally the Lean, CAS, cluster, site, slides, book, Verso and vault skeletons).
-Then write the digest (`templates/digest.md`): the result in three lines, background, setup, one
+Then write the digest (`templates/digest/digest.md`): the result in three lines, background, setup, one
 section per theorem with its proof architecture and status tags, the **findings register**
 (severities: confirmed / wording / implicit hypothesis / strengthening / error), and exercises.
 Details: `references/digest.md`.
