@@ -1,0 +1,34 @@
+name = "{{LEAN_NAME}}Doc"
+version = "0.1.0"
+defaultTargets = ["Doc"]
+
+# The Verso document for the formalization (seminar notes that check themselves). It is NOT part of
+# a Palomar submission: only `../formal` is. Everything here is elaborated against the compiled
+# library, so a statement shown in the document cannot drift from the one that was proved.
+
+# Verso pinned to the release tag whose own `lean-toolchain` equals the toolchain of `../formal`;
+# its dependencies are then pinned at the same revisions as Mathlib's, so adding Verso does not move
+# any Mathlib dependency.
+[[require]]
+name = "verso"
+git = "https://github.com/leanprover/verso"
+rev = "v4.35.0"
+
+# The formalization itself, as a path dependency: its oleans are built in `../formal/.lake`.
+[[require]]
+name = "{{LEAN_NAME}}"
+path = "../formal"
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+relaxedAutoImplicit = false
+
+# The document: `Doc` is the root (`#doc (Manual) ...`); chapters are `Doc.*`.
+[[lean_lib]]
+name = "Doc"
+
+# `lake exe generate-doc --output _out [--with-html-single]` renders the HTML.
+[[lean_exe]]
+name = "generate-doc"
+root = "DocMain"

@@ -1,0 +1,9 @@
+# Environment for building the notes (Jupyter Book 1.x) and executing the notebooks.
+# Install: uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -r book/requirements.txt
+jupyter-book==1.0.4.post1
+jupytext
+ipykernel
+sympy
+mpmath
+numpy
+matplotlib

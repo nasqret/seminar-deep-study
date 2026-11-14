@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}} — {{SEMINAR}}</title>
+  <meta name="description" content="Seminar talk: {{PAPER}} — the mathematics, a Lean formalization, computer-algebra re-verification, notes and slides.">
+  <meta property="og:title" content="{{TITLE}}">
+  <meta property="og:description" content="{{SEMINAR}} · {{DATE}} · {{SPEAKER}}">
+  <!-- og:image must be an ABSOLUTE URL once the page is deployed (social previews ignore relative ones) -->
+  <meta property="og:image" content="{{SITE_URL}}/assets/og.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!--
+    Landing page and status dashboard of a seminar deep study.
+    * Every number on this page is copied from a log or a transcript (formal/verification/logs/,
+      cas/out/), never typed from memory; update it at the end of every session.
+    * Time and room: "to be announced" until known. Findings: only if the speaker agreed.
+    * Works offline (system-font fallbacks); all links are relative.
+  -->
+  <style>
+    :root {
+      --bg: #fafbfc; --bg-alt: #f1f5f9; --text: #1e293b; --text-light: #64748b; --heading: #0f172a;
+      --accent: #4f46e5; --border: #e2e8f0; --radius: 12px;
+      --num: #d97706;   /* numerics (amber) */
+      --sym: #4f46e5;   /* symbolic computation / CAS (indigo) */
+      --frm: #059669;   /* formal proof (green) */
+      --hero-bg: #0b1020;  /* the colour the hero image blends into (scripts/generate_hero.py) */
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.06);
+      --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 12px 28px rgba(0,0,0,0.1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; color: var(--text);
+           background: var(--bg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); }
+    code { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 0.88em;
+           background: var(--bg-alt); padding: 0.05em 0.35em; border-radius: 4px; }
+
+    /* hero */
+    .hero { position: relative; overflow: hidden; min-height: 520px; display: flex; align-items: center; background: var(--hero-bg); }
+    /* the width belongs to <picture> only; the <img> fills it (giving both 64% shrinks the image twice) */
+    .hero picture { position: absolute; top: 0; right: 0; width: 64%; height: 100%; }
+    .hero-bg { width: 100%; height: 100%; object-fit: cover; object-position: 0% 50%; }
+    .hero-content { position: relative; z-index: 10; max-width: 760px; padding: 4rem 3rem 5.5rem; }
+    .hero-label { display: inline-block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+                  letter-spacing: 0.12em; color: #a5b4fc; margin-bottom: 1rem; }
+    .hero h1 { font-size: 2.6rem; font-weight: 800; color: #f8fafc; line-height: 1.12; margin-bottom: 0.9rem; letter-spacing: -0.03em; }
+    .hero .subtitle { font-size: 1.05rem; color: #a3b1c6; max-width: 600px; margin-bottom: 1.2rem; }
+    .hero .author { font-size: 0.92rem; color: #cbd5e1; }
+    .hero .author strong { color: #f1f5f9; }
+    .hero .when { font-size: 0.82rem; color: #8392a8; margin-top: 0.2rem; }
+    .chips { margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .chip { font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.8rem; border-radius: 6px; background: rgba(129,140,248,0.14); color: #a5b4fc; }
+    .chip.num { color: #fbbf24; background: rgba(245,158,11,0.14); }
+    .chip.frm { color: #6ee7b7; background: rgba(16,185,129,0.14); }
+
+    /* cards: a stretched link, never an <a> around content that holds other links */
+    .cards-section { max-width: 1080px; margin: -64px auto 0; padding: 0 2rem; position: relative; z-index: 20; }
+    .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    .card { position: relative; background: white; border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 1.4rem 1.5rem; box-shadow: var(--shadow); transition: all 0.2s; display: flex; flex-direction: column; }
+    .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); border-color: var(--accent); }
+    .card h3 { font-size: 1.02rem; font-weight: 700; color: var(--heading); margin-bottom: 0.35rem; }
+    .card p { font-size: 0.82rem; color: var(--text-light); flex: 1; }
+    .card .card-link { margin-top: 0.8rem; font-size: 0.78rem; font-weight: 600; text-decoration: none; }
+    .card .card-link::after { content: ""; position: absolute; inset: 0; }
+    .card .bar { height: 4px; border-radius: 2px; margin-bottom: 0.9rem; width: 44px; }
+    .bar.num { background: var(--num); } .bar.sym { background: var(--sym); } .bar.frm { background: var(--frm); } .bar.txt { background: var(--text-light); }
+
+    /* boxes */
+    .section { max-width: 1080px; margin: 2.6rem auto; padding: 0 2rem; }
+    .box { background: white; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .box-header { padding: 1.3rem 1.8rem; border-bottom: 1px solid var(--border); }
+    .box-header h2 { font-size: 1.2rem; font-weight: 700; color: var(--heading); }
+    .box-header p { font-size: 0.82rem; color: var(--text-light); }
+    .box-body { padding: 1.4rem 1.8rem; }
+    .box-body p, .box-body li { font-size: 0.88rem; }
+    .box-body ul { padding-left: 1.2rem; }
+    table.status { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    table.status th { text-align: left; color: var(--text-light); font-weight: 600; padding: 0.4rem 0.6rem; border-bottom: 2px solid var(--border); }
+    table.status td { padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .tag { display: inline-block; font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+           padding: 0.08rem 0.45rem; border-radius: 4px; }
+    .tag.frm { background: #d1fae5; color: var(--frm); } .tag.sym { background: #e0e7ff; color: var(--sym); }
+    .tag.num { background: #fef3c7; color: var(--num); } .tag.paper { background: var(--bg-alt); color: var(--text-light); }
+    footer { max-width: 1080px; margin: 3rem auto 2rem; padding: 0 2rem; font-size: 0.78rem; color: var(--text-light); }
+
+    @media (max-width: 860px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .hero picture { width: 100%; } .hero-bg { opacity: 0.35; }
+      .hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <picture>
+    <source srcset="assets/hero.webp" type="image/webp">
+    <img class="hero-bg" src="assets/hero.jpg" alt="{{HERO_ALT}}">
+  </picture>
+  <div class="hero-content">
+    <span class="hero-label">{{SEMINAR}}</span>
+    <h1>{{TITLE}}</h1>
+    <p class="subtitle">{{PAPER}} — the mathematics, a machine-checked formalization, and a
+      re-computation of every computational claim.</p>
+    <p class="author"><strong>{{SPEAKER}}</strong></p>
+    <p class="when">{{DATE}} · time and room: {{TIME_AND_ROOM}}</p>
+    <div class="chips">
+      <span class="chip frm">Lean</span><span class="chip">{{CAS}}</span><span class="chip num">numerics</span>
+    </div>
+  </div>
+</header>
+
+<section class="cards-section">
+  <div class="cards-grid">
+    <div class="card"><div class="bar txt"></div><h3>Notes</h3>
+      <p>The paper rewritten for the seminar: background, proofs step by step, every number computed.</p>
+      <a class="card-link" href="book/intro.html">Read the notes &rarr;</a></div>
+    <div class="card"><div class="bar sym"></div><h3>Slides</h3>
+      <p>The talk, with the board plan and the live-demo moments.</p>
+      <a class="card-link" href="slides/seminar.html">Open the slides &rarr;</a></div>
+    <div class="card"><div class="bar frm"></div><h3>Verso document</h3>
+      <p>The formal statements, read from the compiled library and checked while the page is built.</p>
+      <a class="card-link" href="verso/index.html">Open the document &rarr;</a></div>
+    <div class="card"><div class="bar frm"></div><h3>Formalization</h3>
+      <p>The Lean development: statements, proofs, axiom audit, comparator logs.</p>
+      <a class="card-link" href="formal/README.md">Browse the sources &rarr;</a></div>
+    <div class="card"><div class="bar sym"></div><h3>Computer algebra</h3>
+      <p>Scripts and transcripts re-doing the paper's computations; certificates checked in Lean.</p>
+      <a class="card-link" href="cas/">Browse the scripts &rarr;</a></div>
+    <div class="card"><div class="bar num"></div><h3>Numerical screens</h3>
+      <p>High-precision checks of the explicit objects of the paper (evidence, not proofs).</p>
+      <a class="card-link" href="artifacts/computational/">Browse the checks &rarr;</a></div>
+  </div>
+</section>
+
+<section class="section" id="the-talk">
+  <div class="box">
+    <div class="box-header"><h2>The talk</h2><p>{{SEMINAR}} · {{DATE}} · {{LENGTH}} · time and room: {{TIME_AND_ROOM}}</p></div>
+    <div class="box-body"><p>{{ABSTRACT}}</p></div>
+  </div>
+</section>
+
+<section class="section" id="the-result">
+  <div class="box">
+    <div class="box-header"><h2>The result</h2><p>From the digest, §0 and §1.</p></div>
+    <div class="box-body">
+      <ul><li>{{RESULT_LINE_1}}</li><li>{{RESULT_LINE_2}}</li><li>{{RESULT_LINE_3}}</li></ul>
+      <table class="status">
+        <tr><th>question</th><th>before the paper</th><th>now</th><th>reference</th></tr>
+        <tr><td>{{RECORD_QUESTION}}</td><td>{{RECORD_BEFORE}}</td><td>{{RECORD_NOW}}</td><td>{{RECORD_REF}}</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="plan">
+  <div class="box">
+    <div class="box-header"><h2>Plan of the {{LENGTH}}</h2><p>Minute marks from the slides (<code>slides/board-plan.html</code>).</p></div>
+    <div class="box-body">
+      <ul><li><strong>0–5′</strong> the hook</li><li><strong>…</strong></li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="verification">
+  <div class="box">
+    <div class="box-header"><h2>Verification status</h2>
+      <p>Claim by claim, copied from the digest's tags, <code>formal/verification/logs/</code> and <code>cas/out/</code> on {{STATUS_DATE}}.</p></div>
+    <div class="box-body">
+      <table class="status">
+        <tr><th>claim of the paper</th><th>Lean</th><th>CAS</th><th>numerical</th></tr>
+        <tr><td>{{CLAIM_1}}</td><td><span class="tag frm">proved</span> <code>{{LEAN_NAME_1}}</code></td><td><span class="tag sym">re-computed</span></td><td>—</td></tr>
+        <tr><td>{{CLAIM_2}}</td><td>hypothesis</td><td><span class="tag sym">re-computed</span> <code>{{CAS_SCRIPT_2}}</code></td><td><span class="tag num">screened</span></td></tr>
+        <tr><td>{{CLAIM_3}}</td><td>—</td><td>—</td><td><span class="tag paper">paper only</span></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="evidence">
+  <div class="box">
+    <div class="box-header"><h2>Lean build evidence</h2><p>Lines quoted verbatim from the logs of the last verification run.</p></div>
+    <div class="box-body">
+      <p>Axiom audit: <code>{{AUDIT_LINE}}</code></p>
+      <p>Comparator: <code>{{COMPARATOR_LINE}}</code> — {{KERNELS}}</p>
+      <p>Versions: <code>{{LEAN_VERSION}}</code>, Mathlib <code>{{MATHLIB_REV}}</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Findings: ONLY if the speaker decided to publish them; otherwise delete this section. -->
+<section class="section" id="findings">
+  <div class="box">
+    <div class="box-header"><h2>Findings register</h2><p>What the formalization and the re-computation found in the paper.</p></div>
+    <div class="box-body">
+      <table class="status"><tr><th>#</th><th>place</th><th>finding</th><th>severity</th></tr>
+        <tr><td>F1</td><td></td><td></td><td></td></tr></table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reproduce">
+  <div class="box">
+    <div class="box-header"><h2>How to reproduce</h2></div>
+    <div class="box-body">
+      <ul>
+        <li>Lean: <code>{{LEAN_BUILD_COMMAND}}</code>, then <code>bash formal/scripts/verify-comparator.sh</code>.</li>
+        <li>CAS: <code>{{CAS_RUN_COMMAND}}</code>; transcripts in <code>cas/out/</code>.</li>
+        <li>Notes: <code>jupyter-book build book/</code>; slides: <code>python3 slides/build/build.py</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="references">
+  <div class="box">
+    <div class="box-header"><h2>References</h2><p>Every URL checked with <code>curl -sI</code>.</p></div>
+    <div class="box-body">
+      <ul>
+        <li>{{PAPER}}, <a href="https://arxiv.org/abs/{{ARXIV_ID}}">arXiv:{{ARXIV_ID}}</a>.</li>
+        <li><a href="https://lean-lang.org/">Lean</a> · <a href="https://github.com/leanprover-community/mathlib4">Mathlib</a> ·
+          <a href="https://github.com/leanprover/verso">Verso</a> · <a href="https://palomar-registry.org/">Palomar registry</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about-the-image">
+  <div class="box">
+    <div class="box-header"><h2>About the image</h2></div>
+    <div class="box-body">
+      <p>The picture in the header is the result of a computation, not a drawing. {{ABOUT_THE_PICTURE}}
+        It is produced by <a href="assets/generate_hero.py"><code>generate_hero.py</code></a>, which stops unless
+        every check passes (including a cross-check against the CAS transcript, when one exists).</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  {{SPEAKER}} · {{SEMINAR}} · materials under {{LICENSE}} · the paper is not redistributed here.
+</footer>
+<!-- Formulas (optional): MathJax from a CDN; for a page that must work offline, vendor it as the
+     slides do (slides/vendor/) and point the src there. -->
+<script>window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

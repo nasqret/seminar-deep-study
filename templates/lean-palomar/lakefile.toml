@@ -1,0 +1,40 @@
+name = "{{LEAN_NAME}}"
+version = "0.1.0"
+defaultTargets = ["{{LEAN_NAME}}", "AxiomAudit", "Audit", "Challenge", "Solution"]
+
+# Mathlib pinned to the release tag matching `lean-toolchain`, so that `lake exe cache get` finds
+# prebuilt oleans. Palomar requires Lean >= v4.35.0-rc2 (the first toolchain shipping
+# `lake comparator`). Use the latest stable release when you scaffold, in both places.
+# Never `lake update` without MATHLIB_NO_CACHE_ON_UPDATE=1.
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.35.0"
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+relaxedAutoImplicit = false
+
+# The development: definitions, certificates and proofs.
+[[lean_lib]]
+name = "{{LEAN_NAME}}"
+
+# Build-time axiom allowlist check (a metaprogram).
+[[lean_lib]]
+name = "AxiomAudit"
+
+# Runs the axiom audit over every `{{LEAN_NAME}}.*` declaration (fails the build otherwise).
+[[lean_lib]]
+name = "Audit"
+roots = ["Audit"]
+
+# Palomar: the short, human-auditable statement surface (deliberate `sorry`s).
+[[lean_lib]]
+name = "Challenge"
+roots = ["Challenge"]
+
+# Palomar: the same declarations, proved (imports the development, not Challenge).
+[[lean_lib]]
+name = "Solution"
+roots = ["Solution"]

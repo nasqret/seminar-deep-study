@@ -1,0 +1,58 @@
+
+<!-- Every section element carries data-timing (seconds); the total must equal TALK_MINUTES in build.py.
+     The TIME placeholder in the speaker notes and the TM placeholder in the footer become minute
+     marks. Code blocks hold only SNIP placeholders (anchors in build.py): build.py refuses code that
+     is not a verbatim excerpt of a repository file. See slides/README.md. -->
+
+<section data-timing="180">
+  <div class="vc">
+    <p class="muted">{{SEMINAR}} · {{DATE}}</p>
+    <h1>{{TITLE}}</h1>
+    <p>{{PAPER}}</p>
+    <p><strong>{{SPEAKER}}</strong></p>
+  </div>
+  <aside class="notes">{{TIME}}<p>Who, what, why this paper.</p></aside>
+</section>
+
+<section data-timing="420">
+  <h2>The result in three lines</h2>
+  <ul><li>What is proved.</li><li>Why it is new.</li><li>The key idea.</li></ul>
+  <span class="chapter-tag">Part I — the result<span class="tm">{{TM}}</span></span>
+  <aside class="notes">{{TIME}}<p>From the digest, §0.</p></aside>
+</section>
+
+<section data-timing="2400">
+  <div class="cues"><span class="cue cue-board">board · panel 1</span></div>
+  <h2>The proof, step by step</h2>
+  <div class="theorem-box"><p>The statement, as in the paper.</p></div>
+  <ol><li>step one</li><li>step two</li><li>step three</li></ol>
+  <span class="chapter-tag">Part II — the proof<span class="tm">{{TM}}</span></span>
+  <aside class="notes">{{TIME}}<p>BOARD, panel 1: the setup; panel 2: the steps.</p></aside>
+</section>
+
+<section data-timing="900">
+  <h2>What exactly is proved in Lean</h2>
+  <p class="fileref"><b>formal/Challenge.lean</b> · lines {{LINES:challenge_stmt}}</p>
+  <pre class="code-sm frm"><code class="language-lean" data-trim data-noescape>{{SNIP:challenge_stmt}}</code></pre>
+  <p>Only <code>propext</code>, <code>Classical.choice</code>, <code>Quot.sound</code>: axiom audit and
+    <code>lake comparator --paranoid</code>.</p>
+  <span class="chapter-tag">Part III — the formalization<span class="tm">{{TM}}</span></span>
+  <aside class="notes">{{TIME}}<p>Read the statement aloud; point at the definitions.</p></aside>
+</section>
+
+<section data-timing="900">
+  <div class="cues"><span class="cue cue-live">live <span class="f">{{DEMO_COMMAND}}</span></span></div>
+  <h2>The CAS finds, Lean checks — and <code>grind</code></h2>
+  <p class="fileref"><b>formal/demo/LiveDemo.lean</b> · lines {{LINES:demo_cert}}</p>
+  <pre class="code-sm sym"><code class="language-lean" data-trim data-noescape>{{SNIP:demo_cert}}</code></pre>
+  <span class="chapter-tag">Part III — live<span class="tm">{{TM}}</span></span>
+  <aside class="notes">{{TIME}}<p>Run as is; uncomment "break it"; re-run; comment back. Fallback: screenshots.</p></aside>
+</section>
+
+<section data-timing="600">
+  <div class="cues"><span class="cue cue-opt">optional</span></div>
+  <h2>Outlook and questions</h2>
+  <ul><li>What is not formalized, and why (the explicit hypotheses).</li><li>Open questions.</li></ul>
+  <span class="chapter-tag">Part IV — outlook<span class="tm">{{TM}}</span></span>
+  <aside class="notes">{{TIME}}<p>Skip if late.</p></aside>
+</section>

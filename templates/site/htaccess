@@ -1,0 +1,6 @@
+# Apache: serve the seminar site (copy to .htaccess at the project root if the server is Apache).
+DirectoryIndex index.html
+<IfModule mod_mime.c>
+  AddType text/plain .lean .m .g .sage .py .out
+  AddCharset UTF-8 .lean .m .g .sage .py .out .md .txt .ipynb
+</IfModule>

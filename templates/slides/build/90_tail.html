@@ -1,0 +1,57 @@
+
+</div>
+</div>
+<script src="vendor/reveal.js-5.1.0/dist/reveal.js"></script>
+<script src="vendor/reveal.js-5.1.0/plugin/notes/notes.js"></script>
+<script src="vendor/reveal.js-5.1.0/plugin/highlight/highlight.js"></script>
+<script>
+// Minimal highlight.js grammars for Lean 4 and Magma (extend the keyword lists as needed).
+function leanLanguage(hljs) {
+  return {
+    name: 'Lean',
+    keywords: {
+      $pattern: /[A-Za-z_][A-Za-z0-9_'.!?]*/,
+      keyword: 'theorem lemma example def noncomputable abbrev instance structure class where by have show from at with fun match induction cases rcases obtain rintro intro intros refine exact exacts apply calc import open namespace end variable section public module omit in set_option let if then else do return grind ring linear_combination simp simp_all field_simp norm_num subst constructor by_contra by_cases push fin_cases rw rwa sorry decide native_decide unfold compute_degree nlinarith linarith omega aesop',
+      built_in: 'Nat Int Rat Real Prop Type Fin Finset Set Submodule MvPolynomial Polynomial',
+      literal: 'True False'
+    },
+    contains: [
+      hljs.COMMENT('--', '$'),
+      hljs.COMMENT('/-', '-/', { contains: ['self'] }),
+      hljs.QUOTE_STRING_MODE,
+      { className: 'meta', begin: /#[a-z_]+/ },
+      { className: 'meta', begin: /@\[[^\]]*\]/ },
+      { className: 'number', begin: /\b\d+(\.\d+)?\b/ },
+      { className: 'type', begin: /[ℕℤℚℝℂ]/ },
+      { className: 'symbol', begin: /[∀∃→↔∧∨¬≠≤≥∈∉⊆⊔⊓∑⟨⟩·]/ }
+    ]
+  };
+}
+function magmaLanguage(hljs) {
+  return {
+    name: 'Magma',
+    keywords: {
+      keyword: 'for in do end if then else elif while procedure function return print printf assert quit and or not eq ne lt le gt ge select div mod',
+      built_in: 'PolynomialRing Rationals Evaluate Coefficient Derivative IdealWithFixedBasis Coordinates EliminationIdeal Factorization IsInRadical XGCD ideal'
+    },
+    contains: [hljs.C_LINE_COMMENT_MODE, hljs.QUOTE_STRING_MODE, { className: 'number', begin: /\b\d+\b/ }]
+  };
+}
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', progress: true, center: false, transition: 'slide',
+  width: 1280, height: 720, margin: 0.04,
+  keyboard: { 84: function () { document.body.classList.toggle('show-time'); } },   // T: minute marks
+  highlight: { beforeHighlight: function (hljs) {
+    hljs.registerLanguage('lean', leanLanguage); hljs.registerLanguage('magma', magmaLanguage); } },
+  plugins: [RevealNotes, RevealHighlight]
+});
+</script>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'aside'] }
+};
+</script>
+<script src="vendor/mathjax-3.2.2/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

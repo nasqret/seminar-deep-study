@@ -1,0 +1,4 @@
+# build products and copied evidence (see README.md)
+.lake/
+_out/
+evidence/

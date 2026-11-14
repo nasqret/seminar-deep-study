@@ -1,0 +1,27 @@
+# Lean / Lake build products
+.lake/
+**/.lake/
+_remote/
+verso/_out/
+
+# Python / Jupyter
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+book/_build/
+
+# Site assembly
+_site/
+
+# The paper itself (the arXiv licence usually does not permit redistribution): local only
+source/*.pdf
+source/*.tex
+source/eprint/
+
+# Local / editor state
+.DS_Store
+.claude/
+vault/.obsidian/workspace.json
+vault/.obsidian/workspace-mobile.json
+vault/.trash/

@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "{{FORMALIZATION_TITLE}}"
+  description: >-
+    A Lean formalization of {{PAPER}}. Say what is fully proved, what is proved with explicit
+    hypotheses (and which), and what is not formalized.
+  authors:
+    - "{{SPEAKER}}"
+  license: "{{LICENSE}}"
+  responsible_maintainers:
+    - "{{SPEAKER}}"
+
+classification:
+  arxiv: ["{{ARXIV_CATEGORY}}"]
+  msc2020: ["{{MSC}}"]
+
+sources:
+  - title: "{{PAPER_TITLE}}"
+    authors:
+      - "{{PAPER_AUTHOR}}"
+    id: "arXiv:{{ARXIV_ID}}"
+    type: paper
+    location: "https://arxiv.org/abs/{{ARXIV_ID}}"
+    relationship: formalizes
+    note: >-
+      Formalized: … (with the paper's numbering). Proved with explicit hypotheses: … (which
+      results of the paper or of the literature they stand for). Not formalized: …; their
+      computational inputs were re-computed with a CAS (repository directory cas/).
+    author_endorsement: not-contacted
+
+related_formalizations: []
+
+status:
+  scope: >-
+    Fully proved, with no hypotheses: … (Lean names). Proved with explicit hypotheses: … .
+    Encoding of the objects: … . Not formalized: … .
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: agent
+      models: ["{{MODEL}}"]
+      framework: "Claude Code"
+      tool_setup: >-
+        Where Lean ran (laptop or cluster), the toolchain and Mathlib versions, the CAS and how
+        its certificates enter Lean (cert2lean.py, checked by linear_combination), subagents.
+      cost:
+        wall_time: "{{WALL_TIME}}"
+        spend_usd: "{{SPEND}}"
+        hardware: "{{HARDWARE}}"
+      prompting_notes: >-
+        What the human decided (the paper, the format, which facts may be hypotheses).
+  spend_usd: "{{SPEND}}"
+  notes: >-
+    How the statements were designed and fixed before the proofs; how the proofs follow the paper.
+
+fidelity:
+  divergences: >-
+    (1) Generality (for example: over any algebraically closed field of characteristic zero).
+    (2) Encodings (for example: a line is a two-dimensional subspace). (3) Each explicit
+    hypothesis and the paper's result it stands for. (4) Directions of equivalences proved.
+
+review:
+  status: "pending human review (formalization produced with AI agents; statements to be audited before submission)"
+  reviewers:
+    - "none"
+  notes: >-
+    Machine checks: full build with no warnings outside the deliberate `sorry`s of Challenge.lean;
+    axiom audit (Audit.lean) over all project declarations; lake comparator --paranoid (six
+    kernels). Logs of the last run: verification/logs/.
+
+alignment:
+  namespace: "{{LEAN_NAME}}"
+  statements:
+    - source: "Theorem 1.1"
+      lean: "{{LEAN_NAME}}.R_simple"

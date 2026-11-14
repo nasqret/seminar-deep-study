@@ -1,0 +1,55 @@
+# Jupyter Book 1.x configuration for the seminar notes.
+# Build: .venv/bin/jupyter-book build book/ --warningiserror --keep-going
+title: "{{TITLE}}"
+author: "{{SPEAKER}}"
+copyright: "{{YEAR}} {{SPEAKER}}"
+only_build_toc_files: true
+exclude_patterns:
+  - _build
+  - "**.ipynb_checkpoints"
+
+execute:
+  execute_notebooks: force      # every number in the notes is computed at build time
+  timeout: 300
+  allow_errors: false           # a failing guard cell (assert) stops the build
+  stderr_output: show
+
+parse:
+  myst_enable_extensions:
+    - amsmath
+    - colon_fence
+    - deflist
+    - dollarmath
+    - html_admonition
+    - html_image
+    - linkify
+    - substitution
+
+html:
+  use_edit_page_button: false
+  use_repository_button: false
+  use_issues_button: false
+  use_multitoc_numbering: true
+  home_page_in_navbar: true
+  extra_footer: |
+    <p><a href="../index.html">Seminar page</a> · {{SEMINAR}}</p>
+
+sphinx:
+  config:
+    language: en
+    html_last_updated_fmt: "%Y-%m-%d"
+    html_show_sourcelink: false
+    nb_merge_streams: true
+    myst_heading_anchors: 3
+    # linkify without fuzzy links: abbreviations with dots would otherwise become links
+    myst_linkify_fuzzy_links: false
+    mathjax3_config:
+      tex:
+        macros:
+          N: "\\mathbb{N}"
+          Z: "\\mathbb{Z}"
+          Q: "\\mathbb{Q}"
+          R: "\\mathbb{R}"
+          C: "\\mathbb{C}"
+          F: "\\mathbb{F}"
+          P: "\\mathbb{P}"
